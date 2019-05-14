@@ -4,7 +4,7 @@ const { User } = require('../db');
 
 
 const checkRequest = async (req, res, next) => {
-    const urls = [`/v1/login`];
+    const urls = [`/v1/login`, `/v1/registration`];
     
     if (!urls.includes(req.originalUrl)) {
         try {
@@ -36,7 +36,7 @@ const getUser = async (userId) => {
             `userId`,
             `userRole`,
             `regDate`,
-            `login`,
+            `email`,
         ],
         raw: true,
     });

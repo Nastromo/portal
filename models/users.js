@@ -1,9 +1,8 @@
 module.exports = (db, type) => {
     return db.define('users', {
         userId: {
-            type: type.INTEGER,
+            type: type.STRING,
             primaryKey: true,
-            autoIncrement: true,
         },
         userRole: {
             type: type.STRING,
@@ -13,7 +12,7 @@ module.exports = (db, type) => {
             type: type.BIGINT,
             allowNull: false,
         },
-        login: {
+        email: {
             type: type.STRING,
             allowNull: true,
             unique: true,

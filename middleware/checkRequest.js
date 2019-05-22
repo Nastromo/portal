@@ -8,7 +8,9 @@ const checkRequest = async (req, res, next) => {
 
     if (!urls.includes(req.originalUrl)) {
         try {
-            await bindUser(req, next);
+            const token = await Token.validate(req.headers);
+            req.user = await User.findOne({ where: { userId: token.userId } });
+            delete req.user.pass;
             next();
         } catch (err) {
             console.log(err);
@@ -21,15 +23,6 @@ const checkRequest = async (req, res, next) => {
 
 
 
-const bindUser = async (req) => {
-    const token = await Token.validate(req.headers);
-    req.user = await getUser(token.userId);
-}
-
-
-const getUser = async (userId) => {
-    return await User.findOne({ where: { userId } });
-}
 
 
 module.exports = checkRequest;

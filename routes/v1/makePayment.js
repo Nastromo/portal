@@ -20,7 +20,7 @@ const errorHandler = reqHandler => {
 
 router.post('/', errorHandler(async (req, res, next) => {
     const { amount, token, testTitle, quantity, address, city, state, zip } = req.body;
-
+    
     let { status } = await stripe.charges.create({
         amount,
         currency: "usd",

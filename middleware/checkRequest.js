@@ -5,7 +5,7 @@ const { User } = require('../db');
 
 const checkRequest = async (req, res, next) => {
     const urls = [`/v1/login`, `/v1/registration`];
-    
+
     if (!urls.includes(req.originalUrl)) {
         try {
             await bindUser(req, next);
@@ -28,18 +28,7 @@ const bindUser = async (req) => {
 
 
 const getUser = async (userId) => {
-    return await User.findOne({
-        where: {
-            userId
-        },
-        attributes: [
-            `userId`,
-            `userRole`,
-            `regDate`,
-            `email`,
-        ],
-        raw: true,
-    });
+    return await User.findOne({ where: { userId } });
 }
 
 

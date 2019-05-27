@@ -19,11 +19,11 @@ ENDSSH
 rm app.tar.gz
 
 ssh -i "devempr.pem" ubuntu@192.168.20.204 << 'ENDSSH'
-
+pm2 stop portal
 rm -rf portal_back/* portal_back/.*
 tar xf app.tar.gz -C portal_back
 rm app.tar.gz
 cd portal_back
 npm install
-
+pm2 start portal
 ENDSSH

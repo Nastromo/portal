@@ -11,6 +11,14 @@ module.exports = (db, type) => {
             type: type.STRING,
             primaryKey: true,
         },
+        accession: {
+            type: type.STRING,
+            allowNull: true,
+        },
+        report: {
+            type: type.STRING,
+            allowNull: true,
+        },
         testTitle: {
             type: type.STRING,
             allowNull: false,

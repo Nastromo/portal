@@ -32,7 +32,7 @@ router.post('/', errorHandler(async (req, res, next) => {
         userId: req.user.userId,
         testTitle,
         quantity,
-        status,
+        status: status === `succeeded` ? `submitted` : `errored`,
         amount,
         address,
         city,

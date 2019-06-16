@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const stripe = require("stripe")(process.env.STRIPE);
 const { Payment } = require('../../db');
-
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
 
@@ -20,7 +21,7 @@ const errorHandler = reqHandler => {
 
 router.post('/', errorHandler(async (req, res, next) => {
     const { amount, token, testTitle, quantity, address, city, state, zip } = req.body;
-    
+
     let { status } = await stripe.charges.create({
         amount,
         currency: "usd",
@@ -28,7 +29,7 @@ router.post('/', errorHandler(async (req, res, next) => {
         source: token.id
     });
 
-    await Payment.create({
+    const payment = await Payment.create({
         userId: req.user.userId,
         testTitle,
         quantity,
@@ -38,9 +39,17 @@ router.post('/', errorHandler(async (req, res, next) => {
         city,
         state,
         zip,
-    })
+    });
 
-    res.json({ status });
+    sgMail.send({
+        to: ['big.voice86@gmail.com', 'and.versta@gmail.com'],
+        from: 'Info@empr.com',
+        subject: 'New Payment',
+        text: 'You have received new payment',
+        html: '<strong>You have received new payment</strong>',
+    });
+
+    res.json(payment);
 
 })
 );

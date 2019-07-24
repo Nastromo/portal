@@ -4,6 +4,9 @@ const bcrypt = require('bcryptjs');
 const { User } = require('../../db');
 const jwt = require('jsonwebtoken');
 const uuidv4 = require('uuid/v4');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 
 
 
@@ -23,11 +26,24 @@ router.post('/', errorHandler(async (req, res, next) => {
     const { email, pass } = req.body;
 
     if (email && pass) {
-        // send verification email
+
         const user = await createUser(req);
+
         if (user.isNew) {
             delete user.pass;
             user.token = await createToken(user.userId);
+            
+            const url = process.env.NODE_ENV === `production` ? 
+            `https://mywellcom.us/confirmation?key=${user.token}` :
+            `http://localhost:3000/confirmation?key=${user.token}`;
+
+            sgMail.send({
+                to: [email],
+                from: 'Info@empr.com',
+                subject: 'Please Confirm Registration',
+                text: `Click this link to confirm your registration on EmpireCityLabs: ${url}`,
+            });
+
             res.json(user);
         } else {
             res.status(409).send(`User already exist`);

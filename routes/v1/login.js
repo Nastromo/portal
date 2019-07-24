@@ -24,11 +24,22 @@ router.post('/', errorHandler(async (req, res, next) => {
     if (email && pass) {
         const user = await User.findOne({ where: { email }});
         if (user) {
+            
             const result = await bcrypt.compare(pass, user.pass);
+            if (!result) {
+                res.status(403).send(`Credentials are wrong`);
+                return;
+            }
+
+            if (!user.isConfirmed) {
+                res.json({});
+                return;
+            }
+
             delete user.pass;
             user.token = await createToken(user.userId);
-            if (result) res.json(user)
-            else res.status(403).send(`Credentials are wrong`);
+            res.json(user);
+
         } else {
             res.status(400).send(`No such user`);
         }

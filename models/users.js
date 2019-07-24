@@ -20,6 +20,23 @@ module.exports = (db, type) => {
         pass: {
             type: type.STRING,
             allowNull: false,
+        },
+        firstName: {
+            type: type.STRING,
+            allowNull: true,
+        },
+        lastName: {
+            type: type.STRING,
+            allowNull: true,
+        },
+        dob: {
+            type: type.STRING,
+            allowNull: true,
+        },
+        isConfirmed: {
+            type: type.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
         }
     })
 }

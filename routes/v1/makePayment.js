@@ -42,11 +42,11 @@ router.post('/', errorHandler(async (req, res, next) => {
     });
 
     sgMail.send({
-        to: ['big.voice86@gmail.com', 'and.versta@gmail.com'],
+        to: ['big.voice86@gmail.com', 'vyushvah@empirecitylabs.com'],
         from: 'Info@empr.com',
         subject: 'New Payment',
         text: 'You have received new payment',
-        html: '<strong>You have received new payment</strong>',
+        html: '<strong>You have received new payment (this is test mode for Portal)</strong>',
     });
 
     res.json(payment);

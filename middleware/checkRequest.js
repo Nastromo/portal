@@ -5,7 +5,7 @@ const { User } = require('../db');
 
 const checkRequest = async (req, res, next) => {
     const urls = [`/v1/login`, `/v1/registration`];
-
+    
     if (!urls.includes(req.originalUrl)) {
         try {
             const token = await Token.validate(req.headers);

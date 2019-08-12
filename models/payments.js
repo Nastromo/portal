@@ -19,18 +19,6 @@ module.exports = (db, type) => {
             type: type.STRING,
             allowNull: true,
         },
-        testTitle: {
-            type: type.STRING,
-            allowNull: false,
-        },
-        quantity: {
-            type: type.INTEGER,
-            allowNull: true,
-        },
-        status: {
-            type: type.STRING,
-            allowNull: true,
-        },
         amount: {
             type: type.INTEGER,
             allowNull: true,
@@ -54,6 +42,11 @@ module.exports = (db, type) => {
         zip: {
             type: type.STRING,
             allowNull: false,
+        },
+        date: {
+            type: type.BIGINT,
+            allowNull: false,
+            defaultValue: () => Date.now()
         },
     })
 }

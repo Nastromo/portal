@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const UserModel = require('./models/users');
 const PaymentModel = require('./models/payments');
+const TestModel = require('./models/tests');
 
 
 
@@ -31,10 +32,12 @@ const db = new Sequelize({
 
 const User = UserModel(db, Sequelize);
 const Payment = PaymentModel(db, Sequelize);
+const Test = TestModel(db, Sequelize);
 
 
 module.exports = {
     db,
     User,
-    Payment
+    Payment,
+    Test
 }

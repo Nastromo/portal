@@ -20,19 +20,29 @@ const errorHandler = reqHandler => {
 
 router.post('/', errorHandler(async (req, res, next) => {
     const { email, pass } = req.body;
-    
+
     if (email && pass) {
-        const user = await User.findOne({ where: { email }});
+        const user = await User.findOne({ where: { email } });
         if (user) {
-            
+
             const result = await bcrypt.compare(pass, user.pass);
             if (!result) {
                 res.status(403).send(`Credentials are wrong`);
                 return;
             }
 
+            if (!user.isAccepted) {
+                res.json({
+                    isAccepted: false
+                });
+                return;
+            }
+
             if (!user.isConfirmed) {
-                res.json({});
+                res.json({
+                    isAccepted: true,
+                    isConfirmed: false 
+                });
                 return;
             }
 

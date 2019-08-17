@@ -37,6 +37,11 @@ module.exports = (db, type) => {
             type: type.BOOLEAN,
             allowNull: false,
             defaultValue: false,
+        },
+        isAccepted: {
+            type: type.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
         }
     })
 }
